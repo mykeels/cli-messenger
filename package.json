@@ -8,6 +8,9 @@
     "start": "node src/cli-messenger.js",
     "test": "mocha ./src/tests --exit --watch"
   },
+  "repository": {
+    "url": "https://github.com/mykeels/cli-messenger"
+  },
   "keywords": [
     "cli",
     "messenger",
