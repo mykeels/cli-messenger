@@ -2,13 +2,17 @@
 
 A tool that provides an interface for owning your own chats.
 
-## Development Guide
+## Installation
+
+- Run `npm i -g cli-messenger`
+
+## Development
 
 - Clone this repository
 - Run `npm install` in this directory
 - Run `npm run link`
 
-## Usage Guide
+## Usage
 
 - To start a chat server on localhost, run `cli-messenger`
 - To start a chat server with port forwarding to ngrok, run `NGROK=true cli-messenger`. Inspect the terminal for the ngrok address
