@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Provides a CLI for owning your own chat",
   "main": "src/cli-messenger.js",
+  "bin": "./src/cli-messenger.js",
   "scripts": {
     "start": "node src/cli-messenger.js",
     "test": "mocha ./src/tests --exit --watch"
@@ -23,6 +24,7 @@
     "express": "^4.16.4",
     "express-ws": "^4.0.0",
     "ng-faker": "^1.1.0",
+    "ngrok": "^3.1.1",
     "readline-async": "github:dannynemer/readline-async",
     "ws": "^7.0.0"
   },

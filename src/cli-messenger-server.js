@@ -1,9 +1,11 @@
+#!/usr/bin/env node
+
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const wsRoute = require('./routes/ws.route')
-
+const ngrok = require('ngrok')
 
 app = express()
 
@@ -22,6 +24,15 @@ if (require.main === module) {
 
 const listener = app.listen(process.env.PORT || 40404, function(){
     console.log('Listening on port ' + listener.address().port)
+
+    if (process.env.NGROK) {
+        console.log('connecting to ngrok')
+        ngrok.connect({
+            addr: listener.address().port
+        }).then((address) => {
+            console.log(address.replace(/^https/, 'wss').replace(/^http/, 'ws'))
+        })
+    }
 })
 
 app.listener = listener

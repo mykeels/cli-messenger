@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const program = require('commander')
 const rl = require('readline-async')
 const readline = require('readline')
@@ -13,7 +15,11 @@ const { default: chalk } = require('chalk')
 program
     .parse(process.argv)
 
-const ws = new WebSocket('ws://localhost:40404')
+if (program.args.length > 0) {
+    process.env.ADDRESS = program.args[0]
+}
+
+const ws = new WebSocket(process.env.ADDRESS || 'ws://localhost:40404')
 
 ws.on('message', msg => {
     const data = JSON.parse(msg)
