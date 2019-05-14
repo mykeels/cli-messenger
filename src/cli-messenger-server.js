@@ -23,14 +23,14 @@ if (require.main === module) {
 }
 
 const listener = app.listen(process.env.PORT || 40404, function(){
-    console.log('Listening on port ' + listener.address().port)
+    console.log('local', `ws://localhost:${listener.address().port}`)
 
     if (process.env.NGROK) {
-        console.log('connecting to ngrok')
+        console.log('ngrok:connecting')
         ngrok.connect({
             addr: listener.address().port
         }).then((address) => {
-            console.log(address.replace(/^https/, 'wss').replace(/^http/, 'ws'))
+            console.log(`ngrok:connected ${address.replace(/^https/, 'wss').replace(/^http/, 'ws')}`)
         })
     }
 })

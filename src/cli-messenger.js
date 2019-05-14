@@ -7,8 +7,8 @@ if (require.main === module) {
 
     program
         .version(package.version)
-        .command('server [env]', 'creates a new server')
-        .command('connect [address]', 'connects to a server', { isDefault: true })
+        .command('server', 'creates a new server', { isDefault: true })
+        .command('connect [address]', 'connects to a server')
         .parse(process.argv)
 }
 
