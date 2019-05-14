@@ -6,6 +6,8 @@ const {
     Events,
     Messages
 } = require('../constants')
+const ngFaker = require('ng-faker')
+const { default: chalk } = require('chalk')
 
 const errorHandler = (err) => {
     if (err) console.error("ws-error", err)
@@ -33,7 +35,14 @@ module.exports = (app, factory = new ChatFactory()) => {
             extendWs(ws)
 
             if (!ws.id) {
-                ws.id = uuid()
+                ws.id = (() => {
+                    ngFaker.locale = (['yo', 'ha', 'ig', 'ur', 'bn', 'ek'])[Math.floor(Math.random() * 6)]
+                    const name = ngFaker.fake('{{name.firstName}} {{name.lastName}}')
+                    console.log(
+                        chalk.green(`${name} joined`)
+                    )
+                    return name
+                })()
                 if (chat.sockets.listeners.indexOf(ws) < 0) {
                     chat.sockets.listeners.push(ws)
                     chat.sockets.broadcast({
@@ -81,6 +90,9 @@ module.exports = (app, factory = new ChatFactory()) => {
                     id: ws.id,
                     ...chat.sockets.stats()
                 }, ws)
+                console.log(
+                    chalk.gray(`${ws.id} left`)
+                )
             })
         }
         catch (err) {
