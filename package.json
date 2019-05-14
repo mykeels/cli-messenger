@@ -2,8 +2,9 @@
   "name": "cli-messenger",
   "version": "1.0.0",
   "description": "Provides a CLI for owning your own chat",
-  "main": "index.js",
+  "main": "src/cli-messenger.js",
   "scripts": {
+    "start": "node src/cli-messenger.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -12,5 +13,15 @@
     "chat"
   ],
   "author": "mykeels",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.20.0",
+    "express": "^4.16.4",
+    "express-ws": "^4.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4"
+  }
 }
