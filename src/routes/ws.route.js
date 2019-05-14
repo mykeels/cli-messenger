@@ -44,6 +44,7 @@ module.exports = (app, factory = new ChatFactory()) => {
                     ws.json({
                         message: Events.MESSAGE,
                         content: Messages.WELCOME,
+                        id: ws.id,
                         from: SERVER,
                         ...chat.sockets.stats()
                     })
@@ -77,7 +78,7 @@ module.exports = (app, factory = new ChatFactory()) => {
                 chat.sockets.broadcast()
                 chat.sockets.broadcast({
                     message: Events.USER_LEFT,
-                    content: ws.id,
+                    id: ws.id,
                     ...chat.sockets.stats()
                 }, ws)
             })
