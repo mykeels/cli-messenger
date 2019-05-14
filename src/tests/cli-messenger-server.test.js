@@ -1,6 +1,6 @@
 const WebSocket = require('ws')
 const {
-    SERVER,
+    TEST_SERVER,
     Events,
     Messages
 } = require('../constants')
@@ -9,6 +9,7 @@ const sleep = require('./utils/sleep')
 
 describe('Server', () => {
     before(() => {
+        process.env.PORT = 40405
         const { app } = require('../cli-messenger-server')
     })
 
@@ -17,7 +18,7 @@ describe('Server', () => {
     })
 
     it('receives welcome message', (done) => {
-        const ws = new WebSocket('ws://localhost:40404')
+        const ws = new WebSocket(TEST_SERVER)
 
         ws.on('message', (msg) => {
             const data = JSON.parse(msg)
@@ -29,7 +30,7 @@ describe('Server', () => {
     })
 
     it('notifies ws1 when ws2 joins', (done) => {
-        const ws1 = new WebSocket('ws://localhost:40404')
+        const ws1 = new WebSocket(TEST_SERVER)
         let ws2
 
         ws1.on('message', (msg) => {
@@ -42,13 +43,13 @@ describe('Server', () => {
         })
 
         sleep(20).then(() => {
-            ws2 = new WebSocket('ws://localhost:40404')
+            ws2 = new WebSocket(TEST_SERVER)
         })
     })
 
     it('notifies ws2 when ws1 sends a message', (done) => {
-        const ws1 = new WebSocket('ws://localhost:40404')
-        const ws2 = new WebSocket('ws://localhost:40404')
+        const ws1 = new WebSocket(TEST_SERVER)
+        const ws2 = new WebSocket(TEST_SERVER)
 
         ws2.on('message', (msg) => {
             const data = JSON.parse(msg)
