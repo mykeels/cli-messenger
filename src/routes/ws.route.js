@@ -78,6 +78,13 @@ module.exports = (app, factory = new ChatFactory()) => {
                             ...chat.sockets.stats()
                         }, ws)
                     break
+                    case Events.LIST_USERS:
+                        ws.json({
+                            message: Events.LIST_USERS,
+                            users: chat.sockets.listUsers(),
+                            ...chat.sockets.stats()
+                        })
+                    break
                 }
             })
 

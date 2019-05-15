@@ -12,6 +12,7 @@ function ChatFactory() {
                     }
         const sockets = chats[id].sockets
         sockets.stats = () => ({ listeners: sockets.listeners.length })
+        sockets.listUsers = () => sockets.listeners.map(listener => listener.id)
         sockets.broadcast = (data, exceptWs) => {
             sockets.listeners.filter(ws => !exceptWs || (ws != exceptWs)).forEach((socket) => {
                 socket.json(data)

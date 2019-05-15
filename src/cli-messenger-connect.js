@@ -61,7 +61,32 @@ ws.on('message', msg => {
         rl.setPrompt(ws.id + '$ ')
         rl.prompt()
     }
+    else if (data.message == Events.LIST_USERS) {
+        if (Array.isArray(data.users)) {
+            rl.setPrompt(SERVER + '$ ')
+            data.users.map(user => {
+                rl.prompt()
+                console.log(
+                    chalk.gray(`${user} is in the chat`)
+                )
+            })
+            rl.setPrompt(ws.id + '$ ')
+            rl.prompt()
+        }
+    }
     rl.prompt()
+})
+
+rl.addCommands({
+    name: 'list',
+    description: 'lists all users on this chat',
+    func: function () {
+        ws.send(
+            JSON.stringify({
+                message: Events.LIST_USERS
+            })
+        )
+    }
 })
 
 rl.onLine(line => {
