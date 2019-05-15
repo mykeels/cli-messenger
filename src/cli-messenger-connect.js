@@ -32,7 +32,7 @@ function connect ({ displayName }) {
             if (data.from == SERVER) {
                 if (data.content == Messages.WELCOME) {
                     console.log(
-                        chalk.gray('Welcome!\nYou can begin chatting ...')
+                        chalk.gray(`Welcome!\nYou can begin chatting ... Type .help for command list`)
                     )
                     if (!displayName) {
                         rl.setPrompt(data.id + '$ ')
@@ -136,6 +136,7 @@ rl
     name: 'list',
     description: 'lists all users on this chat',
     func: function () {
+        readline.moveCursor(process.stdout, 0,-1)
         ws.send(
             JSON.stringify({
                 message: Events.LIST_USERS
