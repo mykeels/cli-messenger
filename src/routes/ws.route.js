@@ -92,7 +92,11 @@ module.exports = (app, factory = new ChatFactory()) => {
                             to: data.name,
                             ...chat.sockets.stats()
                         }, ws)
+                        console.log(
+                            chalk.yellow(`${ws.id} changed their name to ${data.name}`)
+                        )
                         ws.id = data.name
+                        
                     break
                 }
             })
