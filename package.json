@@ -5,6 +5,7 @@
   "main": "src/cli-messenger.js",
   "bin": "./src/cli-messenger.js",
   "scripts": {
+    "connect": "nodemon src/cli-messenger-connect.js --ignore '*-server.js' --ignore '*.route.js' --ignore '*.factory.js' --ignore '*.prototype.js'",
     "start": "node src/cli-messenger.js",
     "test": "mocha ./src/tests --exit --watch"
   },
