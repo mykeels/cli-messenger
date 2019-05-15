@@ -12,6 +12,10 @@ const {
 } = require('./constants')
 const { default: chalk } = require('chalk')
 const sleep = require('./tests/utils/sleep')
+const openDialog = require('open-dialog')
+const { default: axios } = require('axios')
+const fs = require('fs')
+const FormData = require('form-data')
 
 if (require.main === module) {
     program.parse(process.argv)
@@ -20,6 +24,8 @@ if (require.main === module) {
         process.env.ADDRESS = program.args[0]
     }
 }
+
+const uuid = () => Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36)
 
 let ws
 
@@ -161,6 +167,38 @@ rl
             rl.setPrompt(ws.id + '$ ')
             rl.prompt()
         }
+    }
+}, {
+    name: 'file',
+    description: 'upload and send a file',
+    func: function () {
+        readline.moveCursor(process.stdout, 0,-1)
+        openDialog({}).then((files = []) => {
+            files.map(file => {
+                const form = new FormData()
+                form.append('name', file.split('/\/|\\/').slice(-1)[0] || uuid())
+                form.append('file', fs.createReadStream(file))
+
+                axios({
+                    url: 'https://uguu.se/api.php?d=upload-tool',
+                    method: 'post',
+                    headers: form.getHeaders(),
+                    data: form
+                })
+                .then(res => {
+                    if (res && res.data) {
+                        ws.send(
+                            JSON.stringify({
+                                message: Events.MESSAGE,
+                                content: res.data
+                            })
+                        )
+                        console.log(res.data)
+                        rl.prompt()
+                    }
+                })
+            })
+        })
     }
 })
 
