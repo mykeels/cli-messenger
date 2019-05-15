@@ -85,6 +85,15 @@ module.exports = (app, factory = new ChatFactory()) => {
                             ...chat.sockets.stats()
                         })
                     break
+                    case Events.CHANGE_NAME:
+                        chat.sockets.broadcast({
+                            message: Events.CHANGE_NAME,
+                            from: ws.id,
+                            to: data.name,
+                            ...chat.sockets.stats()
+                        }, ws)
+                        ws.id = data.name
+                    break
                 }
             })
 

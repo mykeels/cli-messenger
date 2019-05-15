@@ -74,10 +74,20 @@ ws.on('message', msg => {
             rl.prompt()
         }
     }
+    else if (data.message == Events.CHANGE_NAME) {
+        rl.setPrompt(SERVER + '$ ')
+        rl.prompt()
+        console.log(
+            chalk.gray(`${data.from} has changed their name to ${data.to}`)
+        )
+        rl.setPrompt(ws.id + '$ ')
+        rl.prompt()
+    }
     rl.prompt()
 })
 
-rl.addCommands({
+rl
+.addCommands({
     name: 'list',
     description: 'lists all users on this chat',
     func: function () {
@@ -86,6 +96,24 @@ rl.addCommands({
                 message: Events.LIST_USERS
             })
         )
+    }
+}, {
+    name: 'name',
+    description: 'change your display name',
+    argNames: [ '<names>' ],
+    func: function (...names) {
+        const name = names.join(' ')
+        if (name && name.trim()) {
+            ws.send(
+                JSON.stringify({
+                    message: Events.CHANGE_NAME,
+                    name
+                })
+            )
+            ws.id = name
+            rl.setPrompt(ws.id + '$ ')
+            rl.prompt()
+        }
     }
 })
 
