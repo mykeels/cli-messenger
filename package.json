@@ -1,6 +1,6 @@
 {
   "name": "cli-messenger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Start a chat session in your terminal",
   "main": "src/cli-messenger.js",
   "bin": "./src/cli-messenger.js",
