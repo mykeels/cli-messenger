@@ -2,6 +2,8 @@
 
 A tool that provides an interface for owning your own chats.
 
+![Cli Messenger Demo](https://repository-images.githubusercontent.com/186613581/bc52ed00-7660-11e9-8412-5ad53b31051a)
+
 ## Installation
 
 - Run `npm i -g cli-messenger` or `yarn add global cli-messenger`
