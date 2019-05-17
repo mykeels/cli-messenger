@@ -26,6 +26,10 @@ A tool that provides an interface for owning your own chats.
 - PORT (server): `PORT=4000 cli-messenger` will run the chat server on port `4000`
 - NGROK (server): `NGROK=true cli-messenger` will port forward the chat server to [ngrok.io](https://ngrok.io)
 - DISPLAY_NAME (client): `DISPLAY_NAME=Mykeels cli-messenger connect` will set my chat display name to `Mykeels`
+- SILENT (client): `SILENT=true cli-messenger connect` will prevent playing notification sounds
+- MESSAGE_SOUND_FILE (client): `MESSAGE_SOUND_FILE=/Users/mykeels/music/my-sound.mp3 cli-messenger connect` will play `my-sound.mp3` everytime a message is received
+
+> For developers, you should copy the `.env.example` file to a `.env` file, so you can set the variables within it in bulk
 
 ## Chat Commands
 

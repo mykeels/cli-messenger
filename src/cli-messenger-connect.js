@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+require('dotenv').config()
 const program = require('commander')
 const rl = require('readline-async')
 const readline = require('readline')
@@ -16,6 +17,8 @@ const openDialog = require('open-dialog')
 const { default: axios } = require('axios')
 const fs = require('fs')
 const FormData = require('form-data')
+const player = require('play-sound')({})
+const path =  require('path')
 
 if (require.main === module) {
     program.parse(process.argv)
@@ -64,6 +67,11 @@ function connect ({ displayName }) {
                     chalk.green(`${data.from}$`),
                     chalk.green(data.content)
                 )
+                if (!process.env.SILENT) {
+                    player.play(process.env.MESSAGE_SOUND_FILE || path.join(__dirname, '../sounds/graceful.mp3'), (err) => {
+                        if (err) console.error(err)
+                    })
+                }
             }
             rl.prompt()
         }
