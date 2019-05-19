@@ -7,6 +7,8 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const wsRoute = require('./routes/ws.route')
 const ngrok = require('ngrok')
+const { default: chalk } = require('chalk')
+const readline = require('readline')
 
 app = express()
 
@@ -23,15 +25,49 @@ if (require.main === module) {
         .parse(process.argv);
 }
 
-const listener = app.listen(process.env.PORT || 40404, function(){
-    console.log('local', `ws://localhost:${listener.address().port}`)
+process.on('SIGINT', () => {
+    ngrok.kill()
+    process.exit(0)
+})
 
+const listener = app.listen(process.env.PORT || 40404, function(){
+    console.log('localhost:connected')
+
+    if (listener.address().port === 40404) {
+        console.log(
+            chalk.yellow(
+                `cli-messenger connect ws://localhost:${listener.address().port}\n`
+            )
+        )
+    }
+    else {
+        console.log(
+            chalk.yellow(
+                `cli-messenger connect}`
+            )
+        )
+    }
+    
     if (process.env.NGROK) {
-        console.log('ngrok:connecting')
+        console.log('ngrok:connecting...')
         ngrok.connect({
             addr: listener.address().port
         }).then((address) => {
-            console.log(`ngrok:connected ${address.replace(/^https/, 'wss').replace(/^http/, 'ws')}`)
+            readline.moveCursor(process.stdout, 0,-1)
+            readline.clearLine(process.stdout, 0);
+            console.log(`ngrok:connected`)
+            console.log(
+                chalk.yellow(
+                    `cli-messenger connect ${address.replace(/^https/, 'wss').replace(/^http/, 'ws')}\n`
+                )
+            )
+        }).catch(err => {
+            console.error('could not connect to ngrok')
+            console.error('error:',
+                chalk.cyan(
+                    JSON.stringify(err)
+                )
+            )
         })
     }
 })
