@@ -8,6 +8,8 @@ const {
 } = require('../constants')
 const ngFaker = require('ng-faker')
 const { default: chalk } = require('chalk')
+const rl = require('readline-async')
+
 
 const errorHandler = (err) => {
     if (err) console.error("ws-error", err)
@@ -25,6 +27,20 @@ const errorThrow = (err, ws) => {
 
 module.exports = (app, factory = new ChatFactory()) => {
     expressWs(app)
+
+    rl.on('SIGINT', () => {
+        app.emit('SIGINT')
+        rl.setPrompt('')
+        rl.prompt()
+    })
+
+    app.on('prompt', () => {
+        rl.setPrompt(SERVER + '$ ')
+        rl.prompt()
+    })
+
+    rl.setPrompt(SERVER + '$ ')
+    rl.prompt()
 
     const uuid = () => Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36)
 

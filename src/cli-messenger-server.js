@@ -25,9 +25,8 @@ if (require.main === module) {
         .parse(process.argv);
 }
 
-process.on('SIGINT', () => {
-    ngrok.kill()
-    process.exit(0)
+app.on('SIGINT', async () => {
+    await ngrok.kill()
 })
 
 const listener = app.listen(process.env.PORT || 40404, function(){
@@ -61,6 +60,7 @@ const listener = app.listen(process.env.PORT || 40404, function(){
                     `cli-messenger connect ${address.replace(/^https/, 'wss').replace(/^http/, 'ws')}\n`
                 )
             )
+            app.emit('prompt')
         }).catch(err => {
             console.error('could not connect to ngrok')
             console.error('error:',
@@ -68,7 +68,11 @@ const listener = app.listen(process.env.PORT || 40404, function(){
                     JSON.stringify(err)
                 )
             )
+            app.emit('prompt')
         })
+    }
+    else {
+        app.emit('prompt')
     }
 })
 
